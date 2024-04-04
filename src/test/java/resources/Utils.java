@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import io.restassured.builder.RequestSpecBuilder;
@@ -37,14 +39,29 @@ public class Utils {
 
 		FilterableRequestSpecification filterableRequestSpecification = (FilterableRequestSpecification) requestSpecification;
 
-		filterableRequestSpecification.removeQueryParam("codes");
+		Map<String, String> params = new HashMap<String, String>();
+		params = filterableRequestSpecification.getQueryParams();
+
+		if (!params.isEmpty()) {
+			for (Map.Entry<String, String> e : params.entrySet()) {
+				filterableRequestSpecification.removeQueryParam(e.getKey());
+			}
+		}
 	}
 
-	public void clearPathParam(RequestSpecification requestSpecification, String param) {
+	public void clearPathParam(RequestSpecification requestSpecification) {
 
 		FilterableRequestSpecification filterableRequestSpecification = (FilterableRequestSpecification) requestSpecification;
 
-		filterableRequestSpecification.removePathParam(param);
+		Map<String, String> params = new HashMap<String, String>();
+		params = filterableRequestSpecification.getPathParams();
+
+		if (!params.isEmpty()) {
+			for (Map.Entry<String, String> e : params.entrySet()) {
+				filterableRequestSpecification.removePathParam(e.getKey());
+			}
+		}
+
 	}
 
 	public static String getGlobalValue(String key) throws IOException {

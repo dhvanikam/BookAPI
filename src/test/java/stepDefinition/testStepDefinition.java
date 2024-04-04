@@ -29,7 +29,7 @@ public class testStepDefinition extends Utils {
 	public void user_add_payload_to_request_with_and(String bookid, String name) throws IOException {
 
 		request = given().spec(requestSpecification()).body(data.submitOrder(bookid, name)).log().all();
-		clearPathParam(request, "orderId");
+		clearPathParam(request);
 	}
 
 	@When("user calls {string} with {string} http request")
