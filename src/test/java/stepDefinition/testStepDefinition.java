@@ -10,6 +10,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
+import pojo.Books;
 import resources.APIResources;
 import resources.TestDataBuild;
 import resources.Utils;
@@ -22,7 +23,7 @@ public class testStepDefinition extends Utils {
 	ResponseSpecification responseSpec;
 	RequestSpecification request;
 	Response response;
-
+	Books[] gb;
 	TestDataBuild data = new TestDataBuild();
 
 	@Given("user add payload to request with {string} and {string}")
@@ -74,4 +75,21 @@ public class testStepDefinition extends Utils {
 
 	}
 
+	@Given("user set the request")
+	public void user_set_the_request() throws IOException {
+		request = given().spec(requestSpecification());
+		clearPathParam(request);
+	}
+
+	@Then("verify that total number of books is {string}")
+	public void verify_that_total_number_of_books_is(String string) {
+		gb = response.as(Books[].class);
+		System.out.println(gb.length);
+		System.out.println(gb[0].getId());
+		System.out.println(gb[0].getBookId());
+		System.out.println(gb[0].getCreatedBy());
+		System.out.println(gb[0].getCustomerName());
+		System.out.println(gb[0].getQuantity());
+		System.out.println(gb[0].getTimestamp());
+	}
 }

@@ -2,7 +2,8 @@ package resources;
 
 public enum APIResources {
 
-	submitOrderAPI("orders"), 
+	submitOrderAPI("orders"),
+	getAllOrderAPI("orders"), 
 	getOrderAPI("orders/{orderId}"), 
 	updateOrderAPI("orders/{orderId}"), 
 	deleteOrderAPI("orders/{orderId}");
