@@ -1,5 +1,6 @@
 package stepDefinition;
 
+import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
 
 import io.cucumber.java.en.Given;
@@ -7,6 +8,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -17,7 +19,9 @@ import resources.Utils;
 
 import static io.restassured.RestAssured.*;
 
+import java.io.File;
 import java.io.IOException;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 public class testStepDefinition extends Utils {
 	ResponseSpecification responseSpec;
@@ -54,6 +58,7 @@ public class testStepDefinition extends Utils {
 	public void api_call_is_succesful_with_status_code(Integer int1) {
 		responseSpec = new ResponseSpecBuilder().expectStatusCode(int1).expectContentType(ContentType.JSON).build();
 		Assert.assertEquals(response.getStatusCode(), int1);
+
 	}
 
 	@Then("{string} in response is {string}")
@@ -92,4 +97,17 @@ public class testStepDefinition extends Utils {
 		System.out.println(gb[0].getQuantity());
 		System.out.println(gb[0].getTimestamp());
 	}
+
+	@Then("validate schema for {string}")
+	public void validate_schema_for(String httpMethod) {
+		if (httpMethod.equalsIgnoreCase("POST")) {
+			MatcherAssert.assertThat("Validate json schema", response.getBody().asString(),
+					JsonSchemaValidator.matchesJsonSchemaInClasspath("postOrderschema.json"));
+		}
+		else if(httpMethod.equalsIgnoreCase("GET")) {
+			MatcherAssert.assertThat("Validate json schema", response.getBody().asString(),
+					JsonSchemaValidator.matchesJsonSchemaInClasspath("getBookSchema.json"));
+		}
+	}
+
 }

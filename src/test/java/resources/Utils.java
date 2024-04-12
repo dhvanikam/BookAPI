@@ -27,7 +27,7 @@ public class Utils {
 			requestSpec = new RequestSpecBuilder().addFilter(RequestLoggingFilter.logRequestTo(stream))
 					.addFilter(ResponseLoggingFilter.logResponseTo(stream)).setContentType(ContentType.JSON)
 					.setBaseUri(getGlobalValue("baseurl")).addHeader("Authorization",
-							"Bearer 3a84ad46d1de26eb7fb8da7a227615d0696bafe8353384568d8acbb12d53aea0")
+							"Bearer c2da758fddc1c8fc785937d185d91139ae37bacc6623125ddc9ff8d1cc6d6857")
 					.build();
 
 			return requestSpec;

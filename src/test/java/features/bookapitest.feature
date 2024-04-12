@@ -4,8 +4,10 @@ Feature: Validating Book APIs
     Given user add payload to request with "<bookid>" and "<name>"
     When user calls "submitOrderAPI" with "POST" http request
     Then api call is succesful with status code 201
+    And validate schema for "POST"
     And "created" in response is "true"
     And verify order_Id created maps to "<name>" using "getOrderAPI"
+    And validate schema for "GET"
 
     Examples: 
       | bookid | name |
